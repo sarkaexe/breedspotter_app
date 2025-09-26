@@ -1,9 +1,17 @@
+# src/breedspotter/app.py
 import os
+import sys
+from pathlib import Path
 import streamlit as st
-from .infer import Predictor
+
+# --- make sure "src" is on sys.path when run as a script (Streamlit Cloud/local) ---
+SRC_DIR = Path(__file__).resolve().parents[1]  # .../src
+if str(SRC_DIR) not in sys.path:
+    sys.path.insert(0, str(SRC_DIR))
+
+from breedspotter.infer import Predictor  # absolute import
 
 st.set_page_config(page_title="BreedSpotter", page_icon="🐶", layout="centered")
-
 st.title("🐶 BreedSpotter")
 st.write("Wgraj zdjęcie psa, a model spróbuje rozpoznać rasę.")
 
@@ -15,7 +23,7 @@ k = st.slider("Top-k", 1, 10, 5)
 
 if st.button("Klasyfikuj") and uploaded and ckpt:
     with st.spinner("Inferencja..."):
-        img_path = f"/tmp/_upload.png"
+        img_path = "/tmp/_upload.png"
         with open(img_path, "wb") as f:
             f.write(uploaded.read())
         predictor = Predictor(ckpt)
