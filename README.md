@@ -1,4 +1,4 @@
-# BreedSpotter 🐶
+# BreedSpotter 
 
 Klasyfikator ras psów w PyTorch z GUI w Streamlit + pełny pipeline trenowania.
 
